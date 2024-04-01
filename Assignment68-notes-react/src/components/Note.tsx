@@ -1,4 +1,12 @@
-import { Typography, Box, List, ListItem, ListItemText } from "@mui/material";
+import {
+  Typography,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Collapse,
+} from "@mui/material";
+import React from "react";
 type actionItem = {
   item: string;
 };
@@ -12,12 +20,33 @@ type Props = {
 };
 
 export const Note = (props: Props) => {
+  const [expanded, setExpanded] = React.useState(false);
   const NoteClickHandler = () => {
-    console.log("expand");
+    setExpanded(!expanded);
   };
 
   const countWords = (str: string) => {
-    return str.split(" ").length;
+    let spaceCount: number = 0;
+    let i;
+    for (i = 0; i < str.length; i++) {
+      if (str[i] === " ") {
+        spaceCount++;
+        if (spaceCount > 9) {
+          return i;
+        }
+      }
+    }
+    return i;
+  };
+
+  const endString = () => {
+    if (expanded) {
+      return props.note.content.substring(countWords(props.note.content));
+    } else {
+      return countWords(props.note.content) < props.note.content.length
+        ? "..."
+        : "";
+    }
   };
 
   return (
@@ -32,19 +61,20 @@ export const Note = (props: Props) => {
     >
       <Typography variant="h5">{props.note.title}</Typography>
       <Typography variant="body1">
-        {countWords(props.note.content) > 10
-          ? props.note.content.substring(1, 11) + "..."
-          : props.note.content}
+        {props.note.content.substring(0, countWords(props.note.content)) +
+          endString()}
       </Typography>
-      <List>
-        {props.note.actionItems.map((actionItem: actionItem) => {
-          return (
-            <ListItem>
-              <ListItemText primary={actionItem.item} />
-            </ListItem>
-          );
-        })}
-      </List>
+      <Collapse in={expanded}>
+        <List>
+          {props.note.actionItems.map((actionItem: actionItem) => {
+            return (
+              <ListItem>
+                <ListItemText primary={actionItem.item} />
+              </ListItem>
+            );
+          })}
+        </List>
+      </Collapse>
     </Box>
   );
 };
