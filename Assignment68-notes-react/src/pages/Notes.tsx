@@ -1,12 +1,12 @@
 import { Note } from "../components/Note";
-import { Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 
 const NotesList = (props: any) => {
   return (
     <div>
       {props.meetingNote.map((note: any) => {
         return (
-          <Paper elevation={12}>
+          <Paper elevation={12} key={note.id}>
             <Note note={note}></Note>
           </Paper>
         );
@@ -21,10 +21,11 @@ type Props = {
 
 export const Notes = (props: Props) => {
   return (
-    <div>
-      <h1>Notes</h1>
-      <Typography variant="h5">Meeting Notes</Typography>
+    <Box sx={{ p: 5 }}>
+      <Typography variant="h5" sx={{ pb: 5 }}>
+        Meeting Notes
+      </Typography>
       <NotesList meetingNote={props.meetingNote}></NotesList>
-    </div>
+    </Box>
   );
 };
