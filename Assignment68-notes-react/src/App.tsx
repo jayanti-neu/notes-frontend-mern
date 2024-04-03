@@ -49,7 +49,6 @@ function App() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          border: "1px solid red",
         }}
       >
         <Box sx={{ flexGrow: 1, width: "100%" }}>

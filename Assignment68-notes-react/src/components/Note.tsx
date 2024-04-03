@@ -23,6 +23,7 @@ type Props = {
     title: string;
     content: string;
     actionItems: actionItem[];
+    createdDate: Date;
   };
   addNotes: (note: any, id: string) => void;
 };
@@ -84,6 +85,9 @@ export const Note = (props: Props) => {
           endString()}
       </Typography>
       <Collapse in={expanded}>
+        <Typography variant="h6" sx={{ pt: 2 }}>
+          Action Items:
+        </Typography>
         <List>
           {props.note.actionItems.map((actionItem: actionItem) => {
             return (
@@ -109,6 +113,13 @@ export const Note = (props: Props) => {
         >
           Edit Note
         </Button>
+        <div>
+          <Typography variant="caption">
+            {props.note.createdDate.toLocaleString("en-US", {
+              timeZoneName: "short",
+            })}
+          </Typography>
+        </div>
       </Collapse>
       {open && (
         <NoteForm
