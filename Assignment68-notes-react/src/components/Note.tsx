@@ -6,6 +6,8 @@ import {
   ListItemText,
   Collapse,
   Button,
+  Checkbox,
+  ListItemIcon,
 } from "@mui/material";
 import React from "react";
 import { NoteForm } from "./NoteForm";
@@ -61,18 +63,7 @@ export const Note = (props: Props) => {
     }
   };
 
-  const editNoteBtnHandler = (note: any) => {
-    // fetch("http://localhost:3000/meetingNotes/" + note._id, {
-    //   method: "PUT",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(note),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log(data);
-
-    //     props.addNotes(data, data._id);
-    //   });
+  const editNoteBtnHandler = () => {
     setOpen(true);
   };
 
@@ -97,6 +88,15 @@ export const Note = (props: Props) => {
           {props.note.actionItems.map((actionItem: actionItem) => {
             return (
               <ListItem key={actionItem.item}>
+                <ListItemIcon>
+                  <Checkbox
+                    edge="start"
+                    checked={actionItem.completed}
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{ "aria-labelledby": actionItem.item }}
+                  />
+                </ListItemIcon>
                 <ListItemText primary={actionItem.item} />
               </ListItem>
             );
@@ -105,7 +105,7 @@ export const Note = (props: Props) => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => editNoteBtnHandler(props.note)}
+          onClick={() => editNoteBtnHandler()}
         >
           Edit Note
         </Button>
