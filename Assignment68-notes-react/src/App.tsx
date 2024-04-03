@@ -5,22 +5,16 @@ import {
   Button,
   Container,
   CssBaseline,
-  IconButton,
   Toolbar,
   Typography,
 } from "@mui/material";
 import { Notes } from "./pages/Notes";
 import { useEffect, useState } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
-
-// type MeetingNote = {
-//   id: number;
-//   title: string;
-//   content: string;
-// }[];
+import { NoteForm } from "./components/NoteForm";
 
 function App() {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState<any[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {
     fetch("http://localhost:3000/meetingNotes/")
       .then((res) => res.json())
@@ -29,8 +23,22 @@ function App() {
       });
   }, []);
 
-  const createButtonHandler = () => {
-    console.log("Create Button Clicked");
+  const createButtonHandler = (openValue: boolean) => {
+    setOpen(openValue);
+  };
+
+  const addNotes = (newNotes: any, id: string) => {
+    if (id !== "") {
+      const updatedNotes = notes.map((note) => {
+        if (note._id === id) {
+          return newNotes;
+        }
+        return note;
+      });
+      setNotes(updatedNotes);
+      return;
+    }
+    setNotes([...notes, newNotes]);
   };
 
   return (
@@ -44,7 +52,7 @@ function App() {
           border: "1px solid red",
         }}
       >
-        <Box sx={{ flexGrow: 1, width: "100%", borderRadius: "20%" }}>
+        <Box sx={{ flexGrow: 1, width: "100%" }}>
           <AppBar position="static">
             <Toolbar>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -53,14 +61,22 @@ function App() {
               <Button
                 color="inherit"
                 sx={{ bgcolor: "red" }}
-                onClick={createButtonHandler}
+                onClick={() => createButtonHandler(true)}
               >
                 Create Note
               </Button>
             </Toolbar>
           </AppBar>
         </Box>
-        <Notes meetingNote={notes}></Notes>
+        <Notes meetingNote={notes} addNote={addNotes}></Notes>
+        {open && (
+          <NoteForm
+            note={null}
+            buttonHandler={createButtonHandler}
+            openNote={open}
+            addNote={addNotes}
+          />
+        )}
       </Container>
     </>
   );
