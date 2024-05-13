@@ -4,14 +4,12 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   FormControlLabel,
   Grid,
   IconButton,
   List,
   ListItem,
-  ListItemText,
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
