@@ -61,7 +61,10 @@ export const NoteForm = (props: Props) => {
         actionItems: actionItems,
       }),
     };
-    fetch("http://localhost:3000/meetingNotes/", requestOptions)
+    fetch(
+      "https://notes-backend-mern.onrender.com/meetingNotes/",
+      requestOptions
+    )
       .then((response) => response.json())
       .then((data) => {
         props.addNote(data, "");
@@ -112,7 +115,7 @@ export const NoteForm = (props: Props) => {
         body: JSON.stringify(updatedNote),
       };
       fetch(
-        "http://localhost:3000/meetingNotes/" + props.note._id,
+        "https://notes-backend-mern.onrender.com/meetingNotes" + props.note._id,
         requestOptions
       )
         .then((response) => response.json())

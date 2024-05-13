@@ -16,7 +16,7 @@ function App() {
   const [notes, setNotes] = useState<any[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {
-    fetch("http://localhost:3000/meetingNotes/")
+    fetch("https://notes-backend-mern.onrender.com/meetingNotes/")
       .then((res) => res.json())
       .then((data) => {
         setNotes(data);
